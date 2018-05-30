@@ -1,0 +1,54 @@
+server:
+  port: 8060
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8091/eureka/
+
+logging:
+  pattern: 
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+              
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: oauth-service
+        uri: lb://oauth-service
+        predicates:
+        - Path=/ua/**
+        filters:
+        - RewritePath=/ua/(?<path>.*), /$\{path}      
+      - id: employee-service
+        uri: lb://employee-service
+        predicates:
+        - Path=/employee/**
+        filters:
+        - RewritePath=/employee/(?<path>.*), /$\{path}
+      - id: organization-service
+        uri: lb://organization-service
+        predicates:
+        - Path=/organization/**
+        filters:
+        - RewritePath=/organization/(?<path>.*), /$\{path}
+        
+
+security:
+  user:
+    name: acme
+    password: acmesecret
+  oauth2:
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      accessTokenUri: http://localhost:8088/ua/oauth/token
+      userAuthorizationUri: http://localhost:8088/ua/oauth/authorize
+      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: http://localhost:8088/ua/me
+      preferTokenInfo: false  
+  sessions: ALWAYS        
