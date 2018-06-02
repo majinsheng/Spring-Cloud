@@ -4,6 +4,10 @@ server:
 logging:
   pattern: 
     console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+  level:
+    org:
+      springframework:
+         security: DEBUG  
     
 spring:
    data:
@@ -13,4 +17,11 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8091/eureka/         
+      defaultZone: http://localhost:8091/eureka/
+      
+security:
+  oauth2:
+    resource:
+      id: organization-service
+      user-info-uri: http://localhost:8060/ua/user
+      prefer-token-info: false      
