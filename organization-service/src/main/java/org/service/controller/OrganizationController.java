@@ -25,10 +25,10 @@ public class OrganizationController {
 	EmployeeClient employeeClient;
 	
 	
-	@GetMapping("/demo")
-    @PreAuthorize("hasAuthority('query')")
+	@GetMapping("/org-with-auth")
+    @PreAuthorize("hasAuthority('USER')")
     public String getDemo(){
-        return "good";
+        return "got it!";
     }
 	
 	@PostMapping

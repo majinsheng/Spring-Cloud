@@ -36,19 +36,13 @@ spring:
         filters:
         - RewritePath=/organization/(?<path>.*), /$\{path}
         
-
 security:
-  user:
-    name: acme
-    password: acmesecret
   oauth2:
     client:
+      access-token-uri: http://localhost:8060/ua/oauth/token
+      user-authorization-uri: http://localhost:8060/ua/oauth/authorize
       client-id: acme
       client-secret: acmesecret
-      accessTokenUri: http://localhost:8088/ua/oauth/token
-      userAuthorizationUri: http://localhost:8088/ua/oauth/authorize
-      clientAuthenticationScheme: form
     resource:
-      userInfoUri: http://localhost:8088/ua/me
-      preferTokenInfo: false  
-  sessions: ALWAYS        
+      user-info-uri: http://localhost:8060/ua/user
+      prefer-token-info: false     
